@@ -20,7 +20,7 @@ df <- cbind(
   #Wins (1: Isaac, 0: Timi)
   c(0,0,0,1,0,1,0,1,1,0,1,0,0,1,1,1,1,1,1,1,0,1,0,1,0,1,0,1,0,0,1,0,1,1,0,1,1,0,1,1,0,0,1,0,0,1,0,0,1,1,
     0,1,0,1,1,0,0,1,0,1,0,1,1,1,0,0,1,0,1,0,0,1,0,0,1,0,1,0,0,1,0,0,1,0,1,1,0,1,0,1,0,1,0,1,0,0,0,0,1,1,1,
-                                    #END OF THE FIRST EPOCH - Best of 100 won by Isaac on tiebreak 51-50 *eye roll*
+                                    #END OF THE FIRST EPOCH - Best of 100 won by Isaac on tiebreak 51-50 *eye roll...*
     0,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0
     ),
   #Winning scores
