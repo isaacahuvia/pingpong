@@ -9,7 +9,7 @@ Steps:
 - [ ] Create code for analyses
   - [ ] Game-based metrics
     - [x] WinPlot.R
-- [ ] Make streak code flexible - perhaps analogous to largest lead, in that both players get one and it shows the most recent of each
+      - [ ] Make streak code flexible - perhaps analogous to largest lead, in that both players get one and it shows the most recent of each
       - [ ] Add mouse-over text for score of game, perhaps also total wins at time of game and current lead
     - [x] ScorePlot.R
     - [x] DominanceIndexPlot.R
