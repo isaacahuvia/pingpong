@@ -28,3 +28,6 @@ Steps:
     - [ ] TBD - __*Timi*__
 - [ ] Port code onto external server/site - __*Isaac*__
 - [ ] Combine all RShiny code into single page/domain - __*Isaac*__
+
+Co-Founder, Chief Operating Officer, and Director of Match-Based Programming Isaac Ahuvia
+Co-Founder, Chief Thought Leader, and Director of Points-Based Programming Timi Koyejo
