@@ -6,7 +6,9 @@ Steps:
   - [x] Scraping.R - __*Isaac*__
   - [x] Data Cleaning.R - __*Isaac*__
   - [x] Data Manipulation.R - __*Isaac*__
+    - [ ] (see code)
   - [ ] Create Point Dataset.R - __*Timi*__ (loads dfMatch, creates and saves dfPoint)
+  - [ ] Update Match Dataset.R - __*Timi*__
   - [ ] Rename df dfMatch to go along with dfPoint
 - [ ] Create code for analyses - __*Both*__
   - [ ] Game-based metrics - __*Isaac*__
