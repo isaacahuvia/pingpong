@@ -6,7 +6,7 @@ Steps:
   - [x] Scraping.R - __*Isaac*__
   - [x] Data Cleaning.R - __*Isaac*__
   - [x] Data Manipulation.R - __*Isaac*__
-    - [ ] (see code)
+    - [ ] see code
   - [ ] Create Point Dataset.R - __*Timi*__ (loads dfMatch, creates and saves dfPoint)
   - [ ] Update Match Dataset.R - __*Timi*__
   - [ ] Rename df dfMatch to go along with dfPoint
@@ -20,10 +20,10 @@ Steps:
   - [ ] Point-based metrics - __*Timi*__
     - [ ] TBD - __*Timi*__
 - [ ] Turn code into reactive RShiny objects - __*Both*__
-  - [ ] Game-based metrics - __*Both*__
+  - [ ] Game-based metrics - __*Isaac*__
     - [x] WinPlot.R - __*Isaac*__
     - [ ] ScorePlot.R - __*Isaac*__
-    - [ ] DominanceIndexPlot.R - __*Timi*__
+    - [ ] DominanceIndexPlot.R - __*Isaac*__
   - [ ] Point-based metrics - __*Timi*__
     - [ ] TBD - __*Timi*__
 - [ ] Port code onto external server/site - __*Isaac*__
