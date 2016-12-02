@@ -33,6 +33,6 @@ Steps:
 
 A silo-less thought-partnership by:
 
-Co-Founder, Chief Operating Officer, and Director of Match-Based Programming Isaac Ahuvia
+Co-Founder, Chief Technical Director, and Director of Match-Based Programming Isaac Ahuvia
 
 Co-Founder, Chief Thought Leader, and Director of Points-Based Programming Timi Koyejo
