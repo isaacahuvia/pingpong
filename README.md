@@ -14,7 +14,6 @@ Steps:
       - [ ] Add mouse-over text for score of game, perhaps also total wins at time of game and current lead
     - [x] ScorePlot.R - __*Isaac*__
       - [ ] Add mouse-over
-      - [ ] Fix colors of lines changing when boxes are un/checked
     - [x] DominanceIndexPlot.R - __*Isaac*__
       - [ ] Add mouse-over
   - [ ] Point-based metrics - __*Timi*__
@@ -30,6 +29,9 @@ Steps:
 - [x] Combine all RShiny code into single page/domain - __*Isaac*__
   - [ ] Reformat pages
 
+Tings to fix:
+- [ ] Colors of lines in score plot change when boxes are checked/unchecked
+- [ ] X-axis scale labels overlap (also, set to only show multiples of 20/40?)
 
 
 A silo-less thought-partnership by:
