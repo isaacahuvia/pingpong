@@ -25,7 +25,7 @@ Steps:
     - [ ] DominanceIndexPlot.R - __*Isaac*__
   - [ ] Point-based metrics - __*Timi*__
     - [ ] TBD - __*Timi*__
-- [ ] Port code onto external server/site - __*Isaac*__
+- [x] Publish app with shinyapps.io - __*Isaac*__
 - [ ] Combine all RShiny code into single page/domain - __*Isaac*__
 
 
