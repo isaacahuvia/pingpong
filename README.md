@@ -6,17 +6,16 @@ Steps:
   - [x] Scraping.R - __*Isaac*__
   - [x] Data Cleaning.R - __*Isaac*__
   - [x] Data Manipulation.R - __*Isaac*__
-    - [ ] see code
   - [ ] Create Point Dataset.R - __*Timi*__ (loads dfMatch, creates and saves dfPoint)
   - [ ] Update Match Dataset.R - __*Timi*__
-  - [ ] Rename df dfMatch to go along with dfPoint
 - [ ] Create code for analyses - __*Both*__
-  - [ ] Game-based metrics - __*Isaac*__
+  - [x] Game-based metrics - __*Isaac*__
     - [x] WinPlot.R - __*Isaac*__
-      - [ ] Make streak code flexible - perhaps analogous to largest lead, in that both players get one and it shows the most recent of each
       - [ ] Add mouse-over text for score of game, perhaps also total wins at time of game and current lead
     - [x] ScorePlot.R - __*Isaac*__
+      - [ ] Add mouse-over
     - [x] DominanceIndexPlot.R - __*Isaac*__
+      - [ ] Add mouse-over
   - [ ] Point-based metrics - __*Timi*__
     - [ ] TBD - __*Timi*__
 - [ ] Turn code into reactive RShiny objects - __*Both*__
