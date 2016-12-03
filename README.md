@@ -19,14 +19,14 @@ Steps:
   - [ ] Point-based metrics - __*Timi*__
     - [ ] TBD - __*Timi*__
 - [ ] Turn code into reactive RShiny objects - __*Both*__
-  - [ ] Game-based metrics - __*Isaac*__
+  - [x] Game-based metrics - __*Isaac*__
     - [x] WinPlot.R - __*Isaac*__
-    - [ ] ScorePlot.R - __*Isaac*__
-    - [ ] DominanceIndexPlot.R - __*Isaac*__
+    - [x] ScorePlot.R - __*Isaac*__
+    - [x] DominanceIndexPlot.R - __*Isaac*__
   - [ ] Point-based metrics - __*Timi*__
     - [ ] TBD - __*Timi*__
 - [x] Publish app with shinyapps.io - __*Isaac*__
-- [ ] Combine all RShiny code into single page/domain - __*Isaac*__
+- [x] Combine all RShiny code into single page/domain - __*Isaac*__
 
 
 
