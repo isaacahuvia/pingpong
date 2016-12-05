@@ -7,6 +7,8 @@ Steps:
   - [x] Data Cleaning.R - __*Isaac*__
   - [x] Data Manipulation.R - __*Isaac*__
   - [ ] Create Point Dataset.R - __*Timi*__ (loads dfMatch, creates and saves dfPoint)
+    - [ ] May want separate .R file for QC stuff - __*Timi*__
+      - Use final score variables to fix errors in point-by-point data, as needed
   - [ ] Update Match Dataset.R - __*Timi*__ (with new match-level variables that you need dfPoint for, like comback)
 - [ ] Create code for analyses - __*Both*__
   - [x] Game-based metrics - __*Isaac*__
