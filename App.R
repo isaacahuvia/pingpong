@@ -99,6 +99,9 @@ HTML('
      &nbsp &nbsp Co-Founder, Chief Technical Director, and Director of Match-Based Programming Isaac Ahuvia
      <br>
      &nbsp &nbsp Co-Founder, Chief Thought Leader, and Director of Points-Based Programming Timi Koyejo
+     <br>
+     <br>
+     &nbsp &nbsp Version 0.9 Consent Waived
      </div>
      
      ')
