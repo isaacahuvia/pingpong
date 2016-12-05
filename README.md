@@ -7,8 +7,7 @@ Steps:
   - [x] Data Cleaning.R - __*Isaac*__
   - [x] Data Manipulation.R - __*Isaac*__
   - [ ] Create Point Dataset.R - __*Timi*__ (loads dfMatch, creates and saves dfPoint)
-    - [ ] May want separate .R file for QC stuff - __*Timi*__
-      - Use final score variables to fix errors in point-by-point data, as needed
+    - May want separate .R file for QC stuff, using final score variables to fix errors in point-by-point data as needed
   - [ ] Update Match Dataset.R - __*Timi*__ (with new match-level variables that you need dfPoint for, like comback)
 - [ ] Create code for analyses - __*Both*__
   - [x] Game-based metrics - __*Isaac*__
@@ -27,6 +26,7 @@ Steps:
     - [x] DominanceIndexPlot.R - __*Isaac*__
   - [ ] Point-based metrics - __*Timi*__
     - [ ] TBD - __*Timi*__
+  - [ ] Filterable "view our data" tab with dataset - __*Either*__
 - [x] Publish app with shinyapps.io - __*Isaac*__
 - [x] Combine all RShiny code into single page/domain - __*Isaac*__
   - [ ] Reformat pages
