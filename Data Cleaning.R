@@ -1,23 +1,37 @@
 ####### Data Cleaning
 rm(list = ls())
-library(tidyr); library(dplyr)
+library(tidyr); library(dplyr); library(plyr)
 
-load(file = "Scraped Data.RData")
+load(file = "Scraped Pre-Form Data.RData")
+load(file = "Scraped Form Response Data.RData")
 
-dfMatch <- as.data.frame(
-    lapply(dfMatch, function(x){
+dfPre <- dfPre[,1:7]
+dfRes <- dfRes[,1:67]
+
+dfPre <- as.data.frame(
+    lapply(dfPre, function(x){
     x <- c(strsplit(x[1], " ")[[1]], x[2:length(x)])
   }),
   stringsAsFactors = FALSE
 )
 
-names(dfMatch) <- dfMatch[1,]
+names(dfPre) <- dfPre[1,]
+names(dfRes) <- gsub(x = dfRes[1,], pattern = "\\s|\\[|\\]", replacement = "")
+  
+dfPre <- dfPre[2:nrow(dfPre),]
+dfRes <- dfRes[2:nrow(dfRes),]
 
-dfMatch <- dfMatch[2:nrow(dfMatch),] 
+rownames(dfPre) <- seq(length = nrow(dfPre))
+rownames(dfRes) <- seq(length = nrow(dfRes))
 
-rownames(dfMatch) <- seq(length=nrow(dfMatch))
+dfPre[dfPre == "NA"] <- NA
+dfRes[dfRes == "NA"] <- NA
 
-dfMatch[dfMatch == "NA"] <- NA
+x <- dfRes[nrow(dfRes),length(dfRes)]
+dfRes[,8:length(dfRes)][dfRes[,8:length(dfRes)] == x] <- NA
 
+dfMatch <- as.data.frame(rbind.fill(dfPre, dfRes))
+
+dfMatch <- dfMatch[,c(1:4,6:length(dfMatch))]
 
 save(dfMatch, file = "Cleaned Data.RData")
