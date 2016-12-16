@@ -1,11 +1,17 @@
-########### Shiny
+##########################
+## Ping Pong Shiny App  ##
+##     Hover Branch     ##
+##########################
+# 
+# setwd("C:\\Users\\ahuvia\\Desktop\\Really Important Stuff\\Ping Pong - Hover Branch")
+
+####  Startup  ####
 rm(list = ls())
 library(shiny)
 library(ggplot2)
 library(shinyBS)
 
-
-###  Prepare dfMatch and dfPoint  ###
+## Prepare dfMatch and dfPoint
 #These files load and save the datasets in order
 source("Scraping.R")
 
@@ -13,12 +19,13 @@ source("Data Cleaning.R")
 
 source("Data Manipulation.R")
 
+# source("dfPoint.R")
+
 #source("Create dfPoint.R")
 
 #source("Update dfMatch.R")
 
-
-###  Plot Dataprep  ###
+## Plot Dataprep
 #These files use the most up-to-date dfMatch and dfPoint datasets; they are run wihtout saving the 
 #new files, or clearing the working directory, unlike the data prep files
 source("WinPlot Data Prep.R")
@@ -27,68 +34,75 @@ source("ScorePlot Data Prep.R")
 
 source("DIPlot Data Prep.R")
 
-
-
-ui <- tagList(
+####  ui  ####
+ui <- tagList( #tagList used to combine navbarPage (the core app) and HTML at bottom (signature)
 
 navbarPage(
   
   title = "Office Ping Pong",
   
-  tabPanel(title = "Win Plot",
+  tabPanel(title = "Wins Over Time",
   
     #WinPlot x-axis limit slider
-    sliderInput(             
-
-      inputId = "WinPlotXAxis", label = "Win Plot X Axis",
-      round = TRUE, min = 1, max = nrow(dfMatch), value = c(1, nrow(dfMatch))
-      
-      ),
-             
+    sliderInput(inputId = "WinPlotXAxis", label = "Win Plot X Axis",
+                round = TRUE, min = 1, max = nrow(dfMatch), value = c(1, nrow(dfMatch))),
+    
+    #WinPlot itself         
     plotOutput(outputId = "WinPlot",
                hover = hoverOpts(id = "WinPlotHover", delay = 100, delayType = "debounce")),
     
-    uiOutput(outputId = "HoverInfo")
+    #WinPlot slider
+    uiOutput(outputId = "WinPlotHoverInfo")
       
   ),
     
-  tabPanel(title = "Score Plot",
+  tabPanel(title = "Final Scores Over Time",
     
     #ScorePlot x-axis limit slider
-    sliderInput(
-      
-      inputId = "ScorePloxXAxis", label = "Score Plot X Axis",
-      round = TRUE, min = min(dfScorePlot$Match[!is.na(dfScorePlot$IsaacScore)]), max = nrow(dfMatch), value = c(min(dfScorePlot$Match[!is.na(dfScorePlot$IsaacScore)]), nrow(dfMatch))
-      
-    ),
+    sliderInput(inputId = "ScorePloxXAxis", label = "Score Plot X Axis",
+      round = TRUE, min = min(dfScorePlot$Match[!is.na(dfScorePlot$IsaacFinalScore)]), max = nrow(dfMatch), value = c(min(dfScorePlot$Match[!is.na(dfScorePlot$IsaacFinalScore)]), nrow(dfMatch))),
     
     #ScorePlot lagged score inclusion checkboxes
-    checkboxGroupInput(
-      
-      inputId = "ScorePlotCheckbox", label = "Metrics", 
-      choices = c("5-Game Lag" = "_5",
-                  "10-Game Lag" = "_10",
-                  "Overall" = "_All"),
-      selected = c("_5", "_10", "_All")
-      
-    ),
+    checkboxGroupInput(inputId = "ScorePlotCheckbox", label = "Metrics",
+                       choices = c("5-Game Lag" = "_5",
+                                   "10-Game Lag" = "_10",
+                                   "Overall" = "_All"),
+                       selected = c("_5", "_10", "_All")),
     
-    plotOutput(outputId = "ScorePlot")
+    #ScorePlot
+    plotOutput(outputId = "ScorePlot",
+               hover = hoverOpts(id = "ScorePlotHover", delay = 100, delayType = "debounce")),
 
+    #ScorePlot slider
+    uiOutput(outputId = "ScorePlotHoverInfo")
+    
   ),
   
   tabPanel(title = "Dominance Index",
            
     #DIPlot x-axis limit slider     
-    sliderInput(
-      
-      inputId = "DIPlotXAxis", label = "DI Plot X Axis",
-      round = TRUE, min = min(dfDIPlot$Match[!is.na(dfDIPlot$DIIsaac)]), max = nrow(dfMatch), value = c(min(dfDIPlot$Match[!is.na(dfDIPlot$DIIsaac)]), nrow(dfMatch))
-      
-      ),
+    sliderInput(inputId = "DIPlotXAxis", label = "DI Plot X Axis",
+                round = TRUE, min = min(dfDIPlot$Match[!is.na(dfDIPlot$DIIsaac)]), max = nrow(dfMatch), value = c(min(dfDIPlot$Match[!is.na(dfDIPlot$DIIsaac)]), nrow(dfMatch))),
     
-    plotOutput(outputId = "DIPlot")
+    #DIPlot
+    plotOutput(outputId = "DIPlot",
+               hover = hoverOpts(id = "DIPlotHover", delay = 100, delayType = "debounce")),
     
+    #DIPlot slider
+    uiOutput(outputId = "DIPlotHoverInfo")
+    
+  ),
+  
+  tabPanel(title = "Data",
+           
+  #Checkbox inputs to filter/sort data
+  radioButtons(inputId = "Order", label = "Order Data",
+                     choices = c("Newest First" = "new",
+                                 "Oldest First" = "old"),
+                     selected = "new"),
+  
+  dataTableOutput(outputId = "DataTable")
+         
   )
   
 ),
@@ -102,14 +116,16 @@ HTML('
      &nbsp &nbsp Co-Founder, Chief Technical Director, and Director of Match-Based Programming Isaac Ahuvia
      <br>
      &nbsp &nbsp Co-Founder, Chief Thought Leader, and Director of Points-Based Programming Timi Koyejo
+     <br>
+     <br>
+     &nbsp &nbsp Version 0.91 Consent Waived
      </div>
      
      ')
 
 )
 
-
-
+####  server  ####
 server <- function(input, output) {
   
   output$WinPlot <- renderPlot({
@@ -143,58 +159,44 @@ server <- function(input, output) {
     
   })
   
-  output$HoverInfo <- renderUI({
+  output$WinPlotHoverInfo <- renderUI({
     
-    hover <- input$WinPlotHover
-    point <- nearPoints(df = dfWinPlot, coordinfo = hover, threshold = 5, maxpoints = 1)
+    hoverWin <- input$WinPlotHover
+    pointWin <- nearPoints(df = dfWinPlot, coordinfo = hoverWin, threshold = 500, maxpoints = 1)
     
-    if(nrow(point) == 0) {return(NULL)}
+    if(nrow(pointWin) == 0) {return(NULL)}
     
     # calculate point position INSIDE the image as percent of total dimensions
     # from left (horizontal) and from top (vertical)
-    left_pct <- (hover$x - hover$domain$left) / (hover$domain$right - hover$domain$left)
-    top_pct <- (hover$domain$top - hover$y) / (hover$domain$top - hover$domain$bottom)
+    left_pctWin <- (hoverWin$x - hoverWin$domain$left) / (hoverWin$domain$right - hoverWin$domain$left)
+    top_pctWin <- (hoverWin$domain$top - hoverWin$y) / (hoverWin$domain$top - hoverWin$domain$bottom)
     
     # calculate distance from left and bottom side of the picture in pixels
-    left_px <- hover$range$left + left_pct * (hover$range$right - hover$range$left)
-    top_px <- hover$range$top + top_pct * (hover$range$bottom - hover$range$top)
+    left_pxWin <- hoverWin$range$left + left_pctWin * (hoverWin$range$right - hoverWin$range$left)
+    top_pxWin <- hoverWin$range$top + top_pctWin * (hoverWin$range$bottom - hoverWin$range$top)
     
     # create style property fot tooltip
     # background color is set so tooltip is a bit transparent
     # z-index is set so we are sure are tooltip will be on top
-    style <- paste0("position:absolute; z-index:100; background-color: rgba(245, 245, 245, 0.85); ",
-                    "left:", left_px + 2, "px; top:", top_px + 2, "px;")
+    styleWin <- paste0("position:absolute; z-index:100; background-color: rgba(245, 245, 245, 0.85); ",
+                    "left:", left_pxWin + 2, "px; top:", top_pxWin + 2, "px;")
     
     # actual tooltip created as wellPanel
     wellPanel(
       
-      style = style,
-      p(HTML(paste0("<b> Match: </b>", point$Match, "<br/>",
-                    "<b> Isaac: </b>", point$IsaacScore, "<br/>",
-                    "<b> Timi: </b>", point$TimiScore, "<br/>")))
+      style = styleWin,
+      p(HTML(paste0("<b> Match: </b>", pointWin$Match, "<br/>",
+                    "<b> Isaac: </b>", pointWin$IsaacFinalScore, "<br/>",
+                    "<b> Timi: </b>", pointWin$TimiFinalScore, "<br/>")))
     
       )
-    
-  })
-  
-  output$DIPlot <- renderPlot({
-    
-    dfDIPlot %>%
-      dplyr::filter(!is.na(DIIsaac)) %>%
-      ggplot(aes(Match, DIIsaac)) +
-      geom_line(color = "firebrick") +
-      geom_abline(slope = 0, intercept = 0, linetype = "dashed") +
-      xlim(input$DIPlotXAxis[1], input$DIPlotXAxis[2]) + 
-      ylim(-25,25) +
-      ylab("Dominance (Isaac)") +
-      labs(title = "Dominance Index")
     
   })
   
   output$ScorePlot <- renderPlot({
     
     ScorePlot <- ggplot(data = dfScorePlot) +
-      xlim(input$ScorePloxXAxis[1], input$ScorePloxXAxis[2]) + 
+      xlim(input$ScorePloxXAxis[1], input$ScorePloxXAxis[2]) +
       ylim(.4,.6) +
       geom_abline(slope = 0, intercept = .5, alpha = .35) +
       labs(title = "Points Won Over Time") +
@@ -222,6 +224,104 @@ server <- function(input, output) {
     
   })
   
+  output$ScorePlotHoverInfo <- renderUI({
+    
+    hoverScore <- input$ScorePlotHover
+    pointScore <- nearPoints(df = dfScorePlot, coordinfo = hoverScore, threshold = 500, maxpoints = 1)
+    
+    if(nrow(pointScore) == 0) {return(NULL)}
+    
+    # calculate point position INSIDE the image as percent of total dimensions
+    # from left (horizontal) and from top (vertical)
+    left_pctScore <- (hoverScore$x - hoverScore$domain$left) / (hoverScore$domain$right - hoverScore$domain$left)
+    top_pctScore <- (hoverScore$domain$top - hoverScore$y) / (hoverScore$domain$top - hoverScore$domain$bottom)
+    
+    # calculate distance from left and bottom side of the picture in pixels
+    left_pxScore <- hoverScore$range$left + left_pctScore * (hoverScore$range$right - hoverScore$range$left)
+    top_pxScore <- hoverScore$range$top + top_pctScore * (hoverScore$range$bottom - hoverScore$range$top)
+    
+    # create style property fot tooltip
+    # background color is set so tooltip is a bit transparent
+    # z-index is set so we are sure are tooltip will be on top
+    styleScore <- paste0("position:absolute; z-index:100; background-color: rgba(245, 245, 245, 0.85); ",
+                       "left:", left_pxScore + 2, "px; top:", top_pxScore + 2, "px;")
+    
+    # actual tooltip created as wellPanel
+    wellPanel(
+      
+      style = styleScore,
+      p(HTML(paste0("<b> Match: </b>", pointScore$Match, "<br/>",
+                    "<b> Isaac: </b>", pointScore$IsaacFinalScore, "<br/>",
+                    "<b> Timi: </b>", pointScore$TimiFinalScore, "<br/>")))
+      
+    )
+    
+  })
+  
+  output$DIPlot <- renderPlot({
+    
+    dfDIPlot %>%
+      dplyr::filter(!is.na(DIIsaac)) %>%
+      ggplot(aes(Match, DIIsaac)) +
+      geom_line(color = "firebrick") +
+      geom_abline(slope = 0, intercept = 0, linetype = "dashed") +
+      xlim(input$DIPlotXAxis[1], input$DIPlotXAxis[2]) + 
+      ylim(-25,25) +
+      ylab("Dominance (Isaac)") +
+      labs(title = "Dominance Index")
+    
+  })
+  
+  output$DIPlotHoverInfo <- renderUI({
+    
+    hoverDI <- input$DIPlotHover
+    pointDI <- nearPoints(df = dfDIPlot, coordinfo = hoverDI, threshold = 500, maxpoints = 1)
+    
+    if(nrow(pointDI) == 0) {return(NULL)}
+    
+    # calculate point position INSIDE the image as percent of total dimensions
+    # from left (horizontal) and from top (vertical)
+    left_pctDI <- (hoverDI$x - hoverDI$domain$left) / (hoverDI$domain$right - hoverDI$domain$left)
+    top_pctDI <- (hoverDI$domain$top - hoverDI$y) / (hoverDI$domain$top - hoverDI$domain$bottom)
+    
+    # calculate distance from left and bottom side of the picture in pixels
+    left_pxDI <- hoverDI$range$left + left_pctDI * (hoverDI$range$right - hoverDI$range$left)
+    top_pxDI <- hoverDI$range$top + top_pctDI * (hoverDI$range$bottom - hoverDI$range$top)
+    
+    # create style property fot tooltip
+    # background color is set so tooltip is a bit transparent
+    # z-index is set so we are sure are tooltip will be on top
+    styleDI <- paste0("position:absolute; z-index:100; background-color: rgba(245, 245, 245, 0.85); ",
+                         "left:", left_pxDI + 2, "px; top:", top_pxDI + 2, "px;")
+    
+    # actual tooltip created as wellPanel
+    wellPanel(
+      
+      style = styleDI,
+      p(HTML(paste0("<b> Match: </b>", pointDI$Match, "<br/>",
+                    "<b> Isaac: </b>", pointDI$IsaacFinalScore, "<br/>",
+                    "<b> Timi: </b>", pointDI$TimiFinalScore, "<br/>")))
+      
+    )
+    
+  })
+  
+  output$DataTable <- renderDataTable({
+    
+    dfOutput <- dplyr::select(dfMatch,
+                              Match, Timestamp, WonRally, NorthEndzone, Winner, WinningScore, LosingScore, IsaacCumulativeWins, TimiCumulativeWins, IsaacLead, TimiLead, IsaacStreak, TimiStreak)
+    
+    if(input$Order == "new") {
+      
+      dfOutput <- dplyr::arrange(dfOutput, desc(Match))
+      
+    }
+    
+    dfOutput
+    
+  })
+  
 }
 
+####  App  ####
 shinyApp(ui = ui, server = server)
