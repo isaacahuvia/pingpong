@@ -1,8 +1,6 @@
 ##########################
 ## Ping Pong Shiny App  ##
 ##########################
-# 
-# setwd("C:\\Users\\ahuvia\\Desktop\\Really Important Stuff\\Ping Pong - Hover Branch")
 
 ####  Startup  ####
 rm(list = ls())
