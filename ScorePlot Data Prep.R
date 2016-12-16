@@ -13,7 +13,7 @@ rollingSum <- function(x, n) {
 
 dfScorePlot <- dfScorePlot %>%
   filter(!is.na(WinningScore)) %>%
-  mutate(ScoreDiff = IsaacScore / (TimiScore + IsaacScore),
-         ScoreDiffAll = cumsum(IsaacScore) / (cumsum(TimiScore) + cumsum(IsaacScore)),
-         ScoreDiff5 = rollingSum(IsaacScore, 5) / (rollingSum(TimiScore, 5) + rollingSum(IsaacScore, 5)),
-         ScoreDiff10 = rollingSum(IsaacScore, 10) / (rollingSum(TimiScore, 10)  + rollingSum(IsaacScore, 10)))
+  mutate(ScoreDiff = IsaacFinalScore / (TimiFinalScore + IsaacFinalScore),
+         ScoreDiffAll = cumsum(IsaacFinalScore) / (cumsum(TimiFinalScore) + cumsum(IsaacFinalScore)),
+         ScoreDiff5 = rollingSum(IsaacFinalScore, 5) / (rollingSum(TimiFinalScore, 5) + rollingSum(IsaacFinalScore, 5)),
+         ScoreDiff10 = rollingSum(IsaacFinalScore, 10) / (rollingSum(TimiFinalScore, 10)  + rollingSum(IsaacFinalScore, 10)))
