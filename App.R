@@ -29,96 +29,297 @@ source("WinPlot Data Prep.R")
 
 source("ScorePlot Data Prep.R")
 
-source("DIPlot Data Prep.R")
-
 ####  ui  ####
-ui <- tagList( #tagList used to combine navbarPage (the core app) and HTML at bottom (signature)
+ui <- tagList(tags$head(tags$link(rel="shortcut icon", href="favicon.png")),
+ #tagList used to combine navbarPage (the core app) and HTML at bottom (signature)
 
-navbarPage(
+navbarPage(theme = "bootstrap.css",
   
   title = "Office Ping Pong",
   
-  tabPanel(title = "Wins Over Time",
+  navbarMenu("Plots & Charts",
+             
+    tabPanel(title = "Wins Over Time",
   
-    #WinPlot x-axis limit slider
-    sliderInput(inputId = "WinPlotXAxis", label = "Win Plot X Axis",
+      #WinPlot x-axis limit slider
+     sliderInput(inputId = "WinPlotXAxis", label = "Win Plot X Axis",
                 round = TRUE, min = 1, max = nrow(dfMatch), value = c(1, nrow(dfMatch))),
     
-    #WinPlot itself         
-    plotOutput(outputId = "WinPlot",
-               hover = hoverOpts(id = "WinPlotHover", delay = 100, delayType = "debounce")),
-    
-    #WinPlot slider
-    uiOutput(outputId = "WinPlotHoverInfo")
+     #WinPlot itself         
+     plotOutput(outputId = "WinPlot",
+                hover = hoverOpts(id = "WinPlotHover", delay = 100, delayType = "debounce")),
+     
+      #WinPlot slider
+      uiOutput(outputId = "WinPlotHoverInfo")
       
-  ),
+    ),
     
-  tabPanel(title = "Final Scores Over Time",
+    tabPanel(title = "Margins of Victory",
+           
+      fluidRow(
+      
+        column(width = 3,
+        
+          #ScorePlot x-axis limit slider
+          sliderInput(inputId = "ScorePloxXAxis", label = "Score Plot X Axis",
+          round = TRUE, min = min(dfScorePlot$Match[!is.na(dfScorePlot$IsaacFinalScore)]), max = nrow(dfMatch), value = c(min(dfScorePlot$Match[!is.na(dfScorePlot$IsaacFinalScore)]), nrow(dfMatch)))
+        
+        ),
+      
+        column(width = 2,
+        
+          #ScorePlot lagged score inclusion checkboxes
+          checkboxGroupInput(inputId = "ScorePlotCheckbox", label = "Metrics",
+                             choices = c("5-Game Lag" = "_5",
+                                         "10-Game Lag" = "_10",
+                                         "Overall" = "_All",
+                                         "Dominance Index" = "DI"),
+                             selected = c("_5", "_10", "_All"))
+        
+        )
+      
+      ),
     
-    #ScorePlot x-axis limit slider
-    sliderInput(inputId = "ScorePloxXAxis", label = "Score Plot X Axis",
-      round = TRUE, min = min(dfScorePlot$Match[!is.na(dfScorePlot$IsaacFinalScore)]), max = nrow(dfMatch), value = c(min(dfScorePlot$Match[!is.na(dfScorePlot$IsaacFinalScore)]), nrow(dfMatch))),
-    
-    #ScorePlot lagged score inclusion checkboxes
-    checkboxGroupInput(inputId = "ScorePlotCheckbox", label = "Metrics",
-                       choices = c("5-Game Lag" = "_5",
-                                   "10-Game Lag" = "_10",
-                                   "Overall" = "_All"),
-                       selected = c("_5", "_10", "_All")),
-    
-    #ScorePlot
-    plotOutput(outputId = "ScorePlot",
-               hover = hoverOpts(id = "ScorePlotHover", delay = 100, delayType = "debounce")),
+      #ScorePlot
+      plotOutput(outputId = "ScorePlot",
+                 hover = hoverOpts(id = "ScorePlotHover", delay = 100, delayType = "debounce")),
 
-    #ScorePlot slider
-    uiOutput(outputId = "ScorePlotHoverInfo")
+      #ScorePlot slider
+      uiOutput(outputId = "ScorePlotHoverInfo")
+
+    ),
+  
+    tabPanel(title = "Serve by Serve",
+             
+      fluidRow(
+        
+        print("Inputs here")
+        
+      ),
+      
+      fluidRow(
+        
+        print("Plot here")
+        
+      )
+      
+    ),
+  
+  
+    tabPanel(title = "Highlights",
+             
+      fluidRow(
+        
+        print("Big chart here; left column Timi (w emoji) middle column rowname right column Isaac (w emoji); emoji just for those with higher #?")
+        
+      )         
+             
+    )
+  
+  ),
+  
+  tabPanel(title = "See Our Data",
+           
+  fluidRow(
+    
+    HTML('
+         
+blurb on google sheets data collection/storage process <br>
+         
+         ')
     
   ),
   
-  tabPanel(title = "Dominance Index",
+  fluidRow(
+    
+    column(width = 2,
            
-    #DIPlot x-axis limit slider     
-    sliderInput(inputId = "DIPlotXAxis", label = "DI Plot X Axis",
-                round = TRUE, min = min(dfDIPlot$Match[!is.na(dfDIPlot$DIIsaac)]), max = nrow(dfMatch), value = c(min(dfDIPlot$Match[!is.na(dfDIPlot$DIIsaac)]), nrow(dfMatch))),
+           #Checkbox inputs to filter/sort data
+           radioButtons(inputId = "Order", label = "Sort Data",
+                        choices = c("Newest First" = "new",
+                                    "Oldest First" = "old"),
+                        selected = "new")
+           
+           ),
     
-    #DIPlot
-    plotOutput(outputId = "DIPlot",
-               hover = hoverOpts(id = "DIPlotHover", delay = 100, delayType = "debounce")),
-    
-    #DIPlot slider
-    uiOutput(outputId = "DIPlotHoverInfo")
+    column(width = 2,
+           
+           #Checkbox inputs to select only most important variables
+           radioButtons(inputId = "Select", label = "Select Variables",
+                        choices = c("Key Variables" = "some",
+                                    "All Variables" = "all"),
+                        selected = "some")
+           
+           )
     
   ),
-  
-  tabPanel(title = "Data",
            
-  #Checkbox inputs to filter/sort data
-  radioButtons(inputId = "Order", label = "Order Data",
-                     choices = c("Newest First" = "new",
-                                 "Oldest First" = "old"),
-                     selected = "new"),
-  
   dataTableOutput(outputId = "DataTable")
          
+  ),
+  
+  tabPanel(title = "About Us",
+           
+    fluidRow(
+      
+      column(width = 12,
+        
+        HTML('
+             
+<div>
+  <h2> Isaac Ahuvia </h2>
+  <h4> Co-Founder, Chief Technical Director, and Director of Match-Based Programming </h4>
+</div>    
+             
+             ')
+        
+      )
+      
+    ),
+    
+    fluidRow(
+      
+      column(width = 1,
+             
+             HTML('
+                  
+<div>
+  <img id="testgifI" src="IsaacImage.jpg" alt = "Spotlight Hogging Coworker" height=120 width=120>
+  <script>
+    $(function() {
+      $("#testgifI").hover(
+        function() {
+          $(this).attr("src", "test_gif.gif");
+        },
+        function() {
+          $(this).attr("src", "IsaacImage.jpg");
+        }
+      );
+    });
+  </script>
+</div>
+                  
+                  ')
+             
+        ),
+      
+      column(width = 8, 
+             
+             HTML("
+                  
+<div style='margin-left: 20px'>
+  <p>(Isaac gif: juggling off of side of paddle - either find a way to stop gif after one rep or make gif with a super long final frame)</p>
+  <p>
+  Isaac Ahuvia is a __________________. He enjoys playing as hard as he works, etc. An <strike>expert</strike> <strike>accomplished</strike> capable programmer, he once commented out 200 lines of code in 30 minutes flat. When not playing ping pong, Isaac can be found at his desk pulling policy levers and moving needles. In his free time Isaac collects <a href='https://www.linkedin.com/in/isaac-ahuvia-2b677694/'>rare and unique LinkedIn endoresements</a>.
+  </p>
+  <p>
+  Ping pong skill level: Beat Brice that one time.
+  </p>
+</div>                  
+
+                  ")
+             
+             )
+      
+    ),
+    
+    fluidRow(
+      
+      column(width = 12,
+             
+             HTML('
+                  
+<div>
+  <h2> Timi Koyejo </h2>
+  <h4> Co-Founder, Chief Thought Leader, and Director of Points-Based Programming </h4>
+</div>    
+                  
+                  ')
+             
+             )
+      
+      ),
+    
+    fluidRow(
+      
+      column(width = 1,
+             
+             HTML('
+                  
+<div>
+  <img id="testgifT" src="TimiImage.jpg" alt = "Spotlight Hogging Coworker" height=120 width=120>
+  <script>
+    $(function() {
+      $("#testgifT").hover(
+        function() {
+          $(this).attr("src", "test_gif.gif");
+        },
+        function() {
+          $(this).attr("src", "TimiImage.jpg");
+        }
+      );
+    });
+  </script>
+</div>
+                  
+                  ')
+             
+             ),
+      
+      column(width = 8, 
+             
+             HTML('
+                  
+<div style="margin-left: 20px">
+  <p>
+  bio (Timi gif: smash (?))  
+  </p>
+  <p>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin varius dictum nibh, sit amet ornare dolor ullamcorper eu. Aliquam imperdiet purus at turpis tristique consequat. Maecenas sagittis, sem et eleifend sodales, orci sapien rhoncus dui, eget hendrerit odio velit eget massa. Nullam efficitur sem ut commodo dictum. Nulla ut cursus justo. Quisque et lacus eu tellus finibus sollicitudin vel sed nisl. Cras laoreet ante sit amet tellus iaculis convallis. 
+  <br>
+  Pellentesque non hendrerit sem. Proin suscipit magna vitae enim gravida congue. Nam molestie ullamcorper elit vitae pharetra. Nam ut auctor purus. Pellentesque consectetur lorem et urna auctor volutpat. Sed quis odio in turpis consectetur sollicitudin. Nulla vestibulum mauris orci, in eleifend urna gravida id. Etiam placerat orci sit amet justo egestas consectetur. Pellentesque ullamcorper rhoncus libero non varius.
+  </p>
+</div>                  
+                  
+                  ')
+             
+             )
+      
+      ),
+    
+    fluidRow(
+      
+      column(width=12,
+        
+        HTML('
+
+<div>
+<br>
+Curious about our code? <a href="https://github.com/tkoyejo/Really-Important-Stuff">Check out our github!</a>
+</div>
+
+        ')
+      
+      )
+           
+    )
+  
   )
   
 ),
 
-#Signature footer - make sticky to bottom?
+#Footer - make sticky to bottom?
 
 HTML('
 
      <div>
      <hr></hr>
-     &nbsp &nbsp Co-Founder, Chief Technical Director, and Director of Match-Based Programming Isaac Ahuvia
-     <br>
-     &nbsp &nbsp Co-Founder, Chief Thought Leader, and Director of Points-Based Programming Timi Koyejo
-     <br>
-     <br>
-     &nbsp &nbsp Version 0.91 Consent Waived
+     &nbsp &nbsp Version 0.9.1 Consent Waived
      </div>
      
-     ')
+     '),
+
+tags$head(tags$link(rel="shortcut icon", href="URL-to-favicon"))
 
 )
 
@@ -183,9 +384,9 @@ server <- function(input, output) {
       
       style = styleWin,
       p(HTML(paste0("<b> Match: </b>", pointWin$Match, "<br/>",
-                    "<b> Isaac: </b>", pointWin$IsaacFinalScore, "<br/>",
-                    "<b> Timi: </b>", pointWin$TimiFinalScore, "<br/>")))
-    
+                    "<b>Isaac: </b>", pointWin$IsaacFinalScore, "<br/>",
+                    "<b>Timi: </b>", pointWin$TimiFinalScore, "<br/>")))
+      
       )
     
   })
@@ -217,6 +418,13 @@ server <- function(input, output) {
       
     }
     
+    if("DI" %in% input$ScorePlotCheckbox) {
+      
+      ScorePlot <- ScorePlot + geom_line(aes(Match, DIIsaac, color = "Dominance Index"), size = 1)
+      
+    }
+    
+    ScorePlot <- ScorePlot + labs(color = "Color")
     ScorePlot
     
   })
@@ -247,57 +455,9 @@ server <- function(input, output) {
     wellPanel(
       
       style = styleScore,
-      p(HTML(paste0("<b> Match: </b>", pointScore$Match, "<br/>",
-                    "<b> Isaac: </b>", pointScore$IsaacFinalScore, "<br/>",
-                    "<b> Timi: </b>", pointScore$TimiFinalScore, "<br/>")))
-      
-    )
-    
-  })
-  
-  output$DIPlot <- renderPlot({
-    
-    dfDIPlot %>%
-      dplyr::filter(!is.na(DIIsaac)) %>%
-      ggplot(aes(Match, DIIsaac)) +
-      geom_line(color = "firebrick") +
-      geom_abline(slope = 0, intercept = 0, linetype = "dashed") +
-      xlim(input$DIPlotXAxis[1], input$DIPlotXAxis[2]) + 
-      ylim(-25,25) +
-      ylab("Dominance (Isaac)") +
-      labs(title = "Dominance Index")
-    
-  })
-  
-  output$DIPlotHoverInfo <- renderUI({
-    
-    hoverDI <- input$DIPlotHover
-    pointDI <- nearPoints(df = dfDIPlot, coordinfo = hoverDI, threshold = 500, maxpoints = 1)
-    
-    if(nrow(pointDI) == 0) {return(NULL)}
-    
-    # calculate point position INSIDE the image as percent of total dimensions
-    # from left (horizontal) and from top (vertical)
-    left_pctDI <- (hoverDI$x - hoverDI$domain$left) / (hoverDI$domain$right - hoverDI$domain$left)
-    top_pctDI <- (hoverDI$domain$top - hoverDI$y) / (hoverDI$domain$top - hoverDI$domain$bottom)
-    
-    # calculate distance from left and bottom side of the picture in pixels
-    left_pxDI <- hoverDI$range$left + left_pctDI * (hoverDI$range$right - hoverDI$range$left)
-    top_pxDI <- hoverDI$range$top + top_pctDI * (hoverDI$range$bottom - hoverDI$range$top)
-    
-    # create style property fot tooltip
-    # background color is set so tooltip is a bit transparent
-    # z-index is set so we are sure are tooltip will be on top
-    styleDI <- paste0("position:absolute; z-index:100; background-color: rgba(245, 245, 245, 0.85); ",
-                         "left:", left_pxDI + 2, "px; top:", top_pxDI + 2, "px;")
-    
-    # actual tooltip created as wellPanel
-    wellPanel(
-      
-      style = styleDI,
-      p(HTML(paste0("<b> Match: </b>", pointDI$Match, "<br/>",
-                    "<b> Isaac: </b>", pointDI$IsaacFinalScore, "<br/>",
-                    "<b> Timi: </b>", pointDI$TimiFinalScore, "<br/>")))
+      p(HTML(paste0("<b>Match: </b>", pointScore$Match, "<br/>",
+                    "<b>Isaac: </b>", pointScore$IsaacFinalScore, "<br/>",
+                    "<b>Timi: </b>", pointScore$TimiFinalScore, "<br/>")))
       
     )
     
@@ -305,8 +465,22 @@ server <- function(input, output) {
   
   output$DataTable <- renderDataTable({
     
-    dfOutput <- dplyr::select(dfMatch,
-                              Match, Timestamp, WonRally, NorthEndzone, Winner, WinningScore, LosingScore, IsaacCumulativeWins, TimiCumulativeWins, IsaacLead, TimiLead, IsaacStreak, TimiStreak)
+    dfOutput <- dfMatch
+    
+    if(input$Select == "some") {
+      
+      dfOutput$Leader[dfOutput$IsaacLead > 0] <- "Isaac"
+      dfOutput$Leader[dfOutput$TimiLead > 0] <- "Timi"
+      dfOutput$Lead <- paste0(abs(dfOutput$IsaacLead), " (", dfOutput$Leader, ")")
+      
+      dfOutput$Streak[dfOutput$Winner == "Isaac"] <- paste0(dfOutput$IsaacStreak[dfOutput$Winner == "Isaac"], " (Isaac)")
+      dfOutput$Streak[dfOutput$Winner == "Timi"] <- paste0(dfOutput$TimiStreak[dfOutput$Winner == "Timi"], " (Timi)")
+      
+      dfOutput <- dplyr::select(dfOutput,
+                                Match, Timestamp, WonRally, NorthEndzone, Winner, WinningScore, LosingScore, IsaacCumulativeWins, TimiCumulativeWins, Lead, Streak)
+      names(dfOutput) <- c("Match", "Timestamp", "Won Rally", "North Endzone", "Winner", "Winning Score", "Losing Score", "Isaac Total Wins", "Timi Total Wins", "Lead", "Streak")
+
+    }
     
     if(input$Order == "new") {
       
