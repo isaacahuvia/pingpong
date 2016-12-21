@@ -8,15 +8,16 @@ load(file = "Cleaned Data.RData")
 
 dfMatch$Match <- seq(length = nrow(dfMatch)) #Keep track of match index 
 
+dfMatch$WinningScore <- as.numeric(dfMatch$WinningScore)
+dfMatch$LosingScore <- as.numeric(dfMatch$LosingScore)
+
 dfMatch$IsaacFinalScore <- NA
 dfMatch$IsaacFinalScore[dfMatch$Winner == "Isaac"] <- dfMatch$WinningScore[dfMatch$Winner == "Isaac"]
 dfMatch$IsaacFinalScore[dfMatch$Winner == "Timi"] <- dfMatch$LosingScore[dfMatch$Winner == "Timi"]
-dfMatch$IsaacFinalScore <- as.numeric(dfMatch$IsaacFinalScore)
 
 dfMatch$TimiFinalScore <- NA
 dfMatch$TimiFinalScore[dfMatch$Winner == "Timi"] <- dfMatch$WinningScore[dfMatch$Winner == "Timi"]
 dfMatch$TimiFinalScore[dfMatch$Winner == "Isaac"] <- dfMatch$LosingScore[dfMatch$Winner == "Isaac"]
-dfMatch$TimiFinalScore <- as.numeric(dfMatch$TimiFinalScore)
 
 #cumulative variables
 dfMatch$IsaacCumulativeWins <- cumsum(dfMatch$Winner == "Isaac")
