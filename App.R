@@ -183,14 +183,80 @@ ui <- tagList(tags$head(tags$link(rel="shortcut icon", href="favicon.png")),
                                     
                                     
                                     #### ui.Experimental 3D Plot ####            
-                                    tabPanel(title = "Experimental 3D Plot",
+                                    tabPanel(title = "Experimental 3D Win Plot",
                                              
                                              fluidRow(
-                                               plotlyOutput(outputId = "ExperimentalWinPlot")
                                                
-                                             )
-                                    )
+                                               column(1, 
+                                                      
+                                                      HTML('
+                                                           
+                                                           <img id="flashingsiren" src="FlashingPoliceLight.gif" alt = "HIPAA Compliance" height=100% width=100%>
+                                                           
+                                                           ')
+                                                      ),
+
+                                               column(6, offset = 2,
+
+                                                      HTML('
+
+                                                           <img id="caution" src="caution.png" alt = "Caution" height=100% width=100%>
+
+                                                           ')
+                                                      ),
+                                               
+                                               column(1, offset = 2, 
+                                                      
+                                                      HTML('
+                                                           
+                                                           <img id="flashingsiren" src="FlashingPoliceLight.gif" alt = "HIPAA Compliance" height=100% width=100%>
+                                                           
+                                                           ')
+                                                      )
+                                                    )
+                                             ,
+                                             fluidRow(
+                                               
+                                               
+                                               column(6, offset = 3,
+                                                      
+                                                      plotlyOutput(outputId = "ExperimentalWinPlot")
+                                                      
+                                               )
+                                               
                                              ),
+                                             fluidRow(
+                                               
+                                               column(1, 
+                                                      
+                                                      HTML('
+                                                           
+                                                           <img id="flashingsiren" src="FlashingPoliceLight.gif" alt = "HIPAA Compliance" height=100% width=100%>
+                                                           
+                                                           ')
+                                                      ),
+                                               
+                                               column(6, offset = 2,
+                                                      
+                                                      HTML('
+                                                           
+                                                           <img id="caution" src="caution.png" alt = "Caution" height=100% width=100%>
+                                                           
+                                                           ')
+                                                      ),
+                                               
+                                               column(1, offset = 2, 
+                                                      
+                                                      HTML('
+                                                           
+                                                           <img id="flashingsiren" src="FlashingPoliceLight.gif" alt = "HIPAA Compliance" height=100% width=100%>
+                                                           
+                                                           ')
+                                                      )
+                                                )
+                                             
+                                              )
+                                   ),
                          
                          #### ui.See Data ####  
                          tabPanel(title = "See Our Data",
@@ -239,6 +305,8 @@ ui <- tagList(tags$head(tags$link(rel="shortcut icon", href="favicon.png")),
                          #### ui.About Us ####
                          tabPanel(title = "About Us",
                                   
+                              fluidPage(  
+                                
                                   fluidRow(
                                     
                                     column(width = 6,
@@ -247,7 +315,7 @@ ui <- tagList(tags$head(tags$link(rel="shortcut icon", href="favicon.png")),
                                                 
                                                 <div>
                                                 <h2> Isaac Ahuvia </h2>
-                                                <h4> Co-Founder<br>Chief Technical Director<br>Director of Match-Based Programming </h4>
+                                                <h4> Co-Founder<br>Chief Technical Director<br>Director of Match-Based Programming <br> 2016 Urban Open Loser</h4>
                                                 </div>    
                                                 
                                                 ')
@@ -260,7 +328,7 @@ ui <- tagList(tags$head(tags$link(rel="shortcut icon", href="favicon.png")),
                                                 
                                                 <div>
                                                 <h2> Timi Koyejo </h2>
-                                                <h4> Co-Founder<br>Chief Thought Leader<br>Director of Points-Based Programming </h4>
+                                                <h4> Co-Founder<br>Chief Thought Leader<br>Director of Points-Based Programming <br> 2016 Urban Open Champion </h4>
                                                 </div>    
                                                 
                                                 ')
@@ -301,7 +369,7 @@ ui <- tagList(tags$head(tags$link(rel="shortcut icon", href="favicon.png")),
                                                 
                                                 <div style='margin-left: 0px'>
                                                 <p>
-                                                Isaac Ahuvia is an amateur programmer and full-time ping pong athlete. When not playing ping pong, Isaac can be found at his desk pulling policy levers and moving needles. In his free time Isaac collects <a href='https://www.linkedin.com/in/isaac-ahuvia-2b677694/'>rare and unique LinkedIn endoresements</a>.
+                                                Isaac Ahuvia is an amateur programmer and full-time ping pong athlete. When not playing ping pong, Isaac can be found at his desk pulling policy levers and moving needles. In his free time Isaac collects <a href='https://www.linkedin.com/in/isaac-ahuvia-2b677694/'>rare and unique LinkedIn endorsements</a>.
                                                 </p>
                                                 <p>
                                                 Ping pong skill level: Beat Brice that one time.
@@ -338,18 +406,18 @@ ui <- tagList(tags$head(tags$link(rel="shortcut icon", href="favicon.png")),
                                     
                                     column(width = 4, 
                                            
-                                           HTML('
+                                           HTML("
                                                 
-                                                <div style="margin-left: 0px">
+                                                <div style= 'margin-left: 0px'>
                                                 <p>
-                                                Timi Koyejo is a novice data-bender but an expert at running with silly ideas and shepherding them into reality. When he is not enthusiastically promoting the merits of version control, Timi can be found at his desk looking for enlightenment in StackOverflow answers. 
+                                                Timi Koyejo is a novice data-bender but an expert at running with silly ideas and shepherding them into reality. When he is not enthusiastically promoting the merits of version control, Timi can be found at his desk looking for enlightenment in <a href= 'https://www.stackoverflow.com/questions/tagged/r/'>Stack Overflow questions</a>. 
                                                 </p>
                                                 <p>
                                                 Ping pong skill level: Limit is Undefined.
                                                 </p>
                                                 </div>                  
                                                 
-                                                ')
+                                                ")
                                            
                                            )
                                     
@@ -372,9 +440,10 @@ ui <- tagList(tags$head(tags$link(rel="shortcut icon", href="favicon.png")),
                                     
                                     )
                                   
-                                    )
+                                  )
+                              )
                          
-                                  ),
+                            ),
               
               #### ui.Footer ####
               
@@ -696,11 +765,21 @@ server <- function(input, output) {
   #### s.Experimental 3D Plot ####
   output$ExperimentalWinPlot <- renderPlotly({
     
-    plot_ly(data = dfMatch, x = ~Match, y = ~TimiCumulativeWins, z = ~TimiFinalScore, type = "scatter3d", name = "Timi") %>%
-      add_trace(data = dfMatch, x = ~Match, y = ~IsaacCumulativeWins, z = ~IsaacFinalScore, type = "scatter3d", name = "Isaac") %>%
+    plot_ly(data = dfMatch, x = ~Match, y = ~TimiCumulativeWins, z = ~TimiFinalScore, type = "scatter3d", name = "Timi",
+            hoverinfo = 'text',
+            text = ~paste('Match: ', Match, 
+                          '</br> Wins: ', TimiCumulativeWins,
+                          '</br> Score: ', TimiFinalScore)) %>%
+      add_trace(data = dfMatch, x = ~Match, y = ~IsaacCumulativeWins, z = ~IsaacFinalScore, type = "scatter3d", name = "Isaac",
+                hoverinfo = 'text',
+                text = ~paste('Match: ', Match,
+                              '</br> Wins: ', IsaacCumulativeWins,
+                              '</br> Score: ', IsaacFinalScore)
+                ) %>%
       layout(scene = list(xaxis = list(title = "Match"),
                           yaxis = list(title = "Cumulative Wins"),
-                          zaxis = list(title = "Final Score")))
+                          zaxis = list(title = "Final Score")),
+             title = "Wins & Scores Over Time")
     
   })
   
